@@ -96,9 +96,16 @@ function getMousePosition(e) {
 
 Q('#quick_jump').style.top = (Q('#top_menu').offsetHeight + 80) + "px";
 
+
+//Filling quick_nav
+var parts = Qq('article h2'), quick_jump_items = Q("#quick_jump_items"), i, parts_l = parts.length;
+for(i=0;i<parts_l;i++)
+  quick_jump_items.innerHTML += "<li onclick='smoothScrollTo(" + (parts[i].offsetTop - 20) + ",500)'>" + parts[i].innerHTML + "</li>";
+Q('#quick_jump_header').innerHTML = Q('article h1').innerHTML;
+
 //Coloring QML
-var qml_codes = Qq('.qml_code');
-for(i in qml_codes) {
+var qml_codes = Qq('.qml_code'), qml_codes_l = qml_codes.length;
+for(i=0; i<qml_codes_l; i++) {
   var code = qml_codes[i].innerHTML;
   var count = (code.match(/#/g) || []).length, count_comments = (code.match(/\/\//g) || []).length;
   var old_e;

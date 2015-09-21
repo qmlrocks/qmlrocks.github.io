@@ -203,6 +203,7 @@ article .codeinline {
 
 #quick_jump_header {
   font-size: 26px;
+  cursor: pointer;
   padding: 20px 30px;
   display: block;
   background: #455a64;
@@ -211,12 +212,12 @@ article .codeinline {
 footer {
   background: #263238;
   text-align: center;
-  color: white;
   padding: 15px;
 }
 
 footer p {
-  font-size: 23px;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 /* Index */
@@ -225,14 +226,14 @@ footer p {
   height: 100vh;
   background: #263238;
   padding: 80px;
-
+  padding-top: 100px;
   color: white;
 }
 
 
 
 #presentation p {
-  font-size: 30px;
+  font-size: 25px;
   font-family: 'Open Sans';
 }
 
