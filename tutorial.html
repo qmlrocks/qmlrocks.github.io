@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tutorial - QMLrocks</title>
+    <link rel="stylesheet" href="style/style.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,400italic,300italic,600,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Mono' rel='stylesheet' type='text/css'>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,400italic,700' rel='stylesheet' type='text/css'>
+    <meta name="theme-color" content="#4caf50">
+</head>
+<body>
+    <header id="top_menu">
+        <p id="top_menu_title">QMLrocks</p>
+        <ul id="top_menu_list">
+          <li class="nav_parts"><a href="index.html"><i id="home_icon" class="material-icons md-18 md-light">home</i><p>Home</p></a></li>
+          <li>
+            <ul id="top_menu_nav">
+                <li class="step"><div class="point selected_point"></div></li><li class="link"><div></div></li><li class="step"><div class="point"></div></li><li class="link"><div></div></li><li class="step"><div class="point"></div></li><li class="link"><div></div></li><li class="step"><div class="point"></div></li>
+            </ul>
+            <ul id="top_menu_nav_helpers">
+                <li class="selected">Get started</li>
+                <li>Prototyping</li>
+                <li>Compilation</li>
+                <li>Deployment</li>
+            </ul>
+          </li>
+          <li class="nav_parts"><i id="home_icon" class="material-icons md-18 md-light">code</i><p>Advanced</p></li>
+        </ul>
+    </header>
+    <article id="tutorial">
+        <h1>Big section title</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla pharetra dolor nec ex cursus ultricies. Pellentesque semper elementum dolor, ac consequat est rhoncus quis. </p>
+        <pre><div class="code"><p class="qml_code"><!--
+-->import QtQuick 2.0
+   #Rectangle {
+       // Here we can find this Rectangle properties
+       id: canvas
+       width: 250
+       height: 200
+       color: "blue"
+
+   #Image {
+       id: logo
+       source: "pics/logo.png"
+       anchors.centerIn: parent
+       x: canvas.height / 5
+   }
+}<!--
+          --></p></div></pre>
+        <h2>First part title</h2>
+        <p>Duis ac nisi id eros <span class="codeinline">ornare egestas</span>. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Integer mi enim, congue vel nunc eu, pretium molestie diam.</p>
+        <p> Maecenas tincidunt, nunc sed sollicitudin bibendum, leo ante dictum mi, et blandit massa tellus eu dolor. Suspendisse viverra purus at feugiat facilisis. Etiam nec mauris est. Nam et neque sapien. Vestibulum ac quam mi. Cras sodales massa id diam accumsan, nec fringilla est sollicitudin. Cras mollis libero id diam blandit, a elementum ligula ullamcorper. Cras eleifend et arcu nec rhoncus. Duis molestie felis a lacus convallis, at finibus massa pharetra. Nam non eros laoreet, egestas enim eu, mattis lorem. Nam feugiat efficitur urna, at vestibulum turpis rutrum eget.
+
+Mauris aliquet mi sed risus molestie pulvinar. Curabitur lobortis volutpat consectetur. In ornare venenatis erat non molestie. Curabitur a dui vestibulum, aliquet felis ac, sollicitudin urna. Aenean hendrerit arcu lectus, eget feugiat dolor accumsan sit amet. Curabitur consectetur tincidunt ipsum convallis vulputate. Praesent scelerisque consequat orci eu bibendum.
+
+Ut gravida diam ac odio tempor, non aliquam enim commodo. Proin iaculis metus at felis consequat, id aliquam ex posuere. Donec elementum ex ac sem consectetur, vel dapibus nibh ultrices. Vivamus fermentum facilisis finibus. Suspendisse tristique molestie blandit. Donec metus ipsum, finibus ut dignissim ut, sagittis id purus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque augue urna, commodo nec risus vitae, ultrices suscipit tortor. Donec et velit ipsum. Pellentesque nec bibendum augue, et aliquet risus. Curabitur placerat est urna, sit amet lobortis purus interdum luctus. Proin elit dui, facilisis vitae auctor quis, feugiat sed diam.
+.</p>
+        <h2>Second part title</h2>
+        <p>Fusce finibus sodales condimentum. Duis quis maximus dolor. Sed id magna at augue iaculis vehicula. Vivamus sed ultrices arcu, eget vulputate enim. Suspendisse potenti. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam et ante pharetra, sollicitudin orci a, dapibus lacus. Sed aliquet gravida magna, sed malesuada sapien volutpat sed. Duis consequat gravida dictum. Curabitur non lorem diam. Nullam ut purus non dui pharetra pharetra. Nullam eleifend odio et tellus faucibus egestas.
+
+        In hac habitasse platea dictumst. Suspendisse felis tellus, vulputate vitae quam vel, consectetur euismod arcu. Donec et lacus eu nisl semper aliquam at suscipit dui. Praesent quis quam urna. Quisque sed metus dapibus arcu mattis varius ac vel nisi. Nunc congue, augue ac placerat rhoncus, tortor metus rutrum nisl, at lacinia est enim vitae leo. Phasellus vel nulla vel ex porta congue. Vivamus hendrerit arcu hendrerit, facilisis neque ut, sodales quam. Ut sed orci eget risus pharetra facilisis</p>
+
+        <h2>Third part title</h2>
+        <p>Fusce finibus sodales condimentum. Duis quis maximus dolor. Sed id magna at augue iaculis vehicula. Vivamus sed ultrices arcu, eget vulputate enim. Suspendisse potenti. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam et ante pharetra, sollicitudin orci a, dapibus lacus. Sed aliquet gravida magna, sed malesuada sapien volutpat sed. Duis consequat gravida dictum. Curabitur non lorem diam. Nullam ut purus non dui pharetra pharetra. Nullam eleifend odio et tellus faucibus egestas.
+
+        In hac habitasse platea dictumst. Suspendisse felis tellus, vulputate vitae quam vel, consectetur euismod arcu. Donec et lacus eu nisl semper aliquam at suscipit dui. Praesent quis quam urna. Quisque sed metus dapibus arcu mattis varius ac vel nisi. Nunc congue, augue ac placerat rhoncus, tortor metus rutrum nisl, at lacinia est enim vitae leo. Phasellus vel nulla vel ex porta congue. Vivamus hendrerit arcu hendrerit, facilisis neque ut, sodales quam. Ut sed orci eget risus pharetra facilisis</p>
+</article>
+    <div id="quick_jump">
+      <span id="quick_jump_header">Big section title</span>
+      <ul id="quick_jump_items">
+        <li>First part title</li>
+        <li>Second part title</li>
+        <li>Third part title</li>
+      </ul>
+    </div>
+    <footer>
+        <p>Created by Pierre Jacquier and Tim Suberkrub</p>
+    </footer>
+    <script src="js/script.js"></script>
+</body>
+</html>
