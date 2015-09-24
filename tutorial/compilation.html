@@ -31,21 +31,57 @@
     </header>
     <article id="tutorial">
         <h1>Compilation</h1>
-        <h2>...</h2>
-        <p>...</p>
-        <p>...</p>
-        <p>...</p>
-        <p>...</p>
-        <p>...</p>
-        <p>...</p>
-        <p>...</p>
-        <p>...</p>
-        <p>...</p>
-        <p>...</p>
-        <p>...</p>
-        <p>...</p>
-        <p>...</p>
-        <p>...</p>
+        <p>This time, we will see how to compile your application, to have a binary (eg. .exe for Windows) and be able to run it without <span class="codeinline">qmlscene</span>.</p>
+        <p>To do so, we need to complicate a bit and add some files to your directory.</p>
+        <h2>Add a main.cpp file</h2>
+        <p>Yeah, Qt is a C++ framework, so we still need a small C++ wrapper to rum a QML app.</p>
+        <p>Create a <span class="codeinline">main.cpp</span> file, and copy the folowing code inside.</p>
+        <pre><div class="code"><p>#ifndef QT_NO_WIDGETS
+#include <QtWidgets/QApplication>
+typedef QApplication Application;
+#else
+#include <QtGui/QGuiApplication>
+typedef QGuiApplication Application;
+#endif
+#include <QtQml/QQmlApplicationEngine>
+#include <QtQml/QQmlContext>
+
+int main(int argc, char **argv)
+{
+        Application app(argc, argv);
+        QQmlApplicationEngine appEngine;
+        appEngine.load(QUrl("qrc:/main.qml"));
+        QMetaObject::invokeMethod(appEngine.rootObjects().first(), "load");
+
+        return app.exec();
+}</p></div></pre>
+        <h2>Add a .pro file</h2>
+        <p>This file will be used by the <span class="codeinline">qmake</span> command to generate a Makefile.</p>
+        <p>Here's a sample for our hellowold-qml app, (see Prototyping), let's call it <span class="codeinline">helloworld-qml.pro</span></p>
+        <pre><div class="code"><p class="qml_code">QT += quick qml
+QT += widgets
+
+SOURCES += main.cpp
+
+RESOURCES += helloworld-qml.qrc</p></div></pre>
+<h2>Add a .qrc file</h2>
+<p>Finally, we need to add a Qt ressources file, to tell the compiler where the files that are used by QML are located.</p>
+<p>Create a <span class="codeinline">qml.qrc</span>, and paste the folowing content.</p>
+<pre><div class="code"><p class="qml_code">&lt;DOCTYPE RCC&gt;
+&lt;RCC version="1.0"&gt;
+
+&lt;qresource&gt;
+	&lt;file&gt;main.qml&lt;/file&gt;
+&lt;/qresource&gt;
+
+&lt;/RCC&gt;</p></div></pre>
+    <h2>Compile and run</h2>
+    <p>In your directory you should now have at least 4 files : main.cpp, helloword-qml.pro, qml.qrc, main.qml</p>
+    <p>Open your command line in this directory and run the folowing commands : </p>
+    <pre><div class="code"><p>$ qmake
+$ make</p></div></pre>
+    <p>TADAA, a helloworld-qml binary appeared in your folder ! You can run it.</p>
+    <p>//IMG</p>
     </article>
     <div id="quick_jump">
       <span id="quick_jump_header" onclick="smoothScrollTo(0,500)"></span>

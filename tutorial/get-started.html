@@ -36,21 +36,28 @@
           <p>QML (Qt Meta Language or Qt Modeling Language) is a user interface markup language. It is a JavaScript-based, declarative language for designing user interface–centric applications. It is part of Qt Quick, the UI creation kit developed by Nokia within the Qt framework. QML is mainly used for mobile applications where touch input, fluid animations (60 FPS) and user experience are crucial. QML documents describe an object tree of elements. QML elements shipped with Qt are a sophisticated set of building blocks, graphical (e.g., rectangle, image) and behavioral (e.g., state, transition, animation). These elements can be combined to build components ranging in complexity from simple buttons and sliders, to complete internet-enabled programs.</p>
           <p>QML elements can be augmented by standard JavaScript both inline and via included .js files. Elements can also be seamlessly integrated and extended by C++ components using the Qt framework.</p>
           <p>QML is the language; its runtime is the Javascript V4 engine and Qt Quick is the scenegraph-based UI framework.  (Wikipedia)</p>
+          <p>"Hello World!" in QML : </p>
+          <pre><div class="code"><p class="qml_code"><!--
+  -->import QtQuick 2.0
+ #ApplicationWindow {
+     id: app
+     width: 500
+     height: 300
+     title: "My Application"
+
+     #Text {
+         id: myHelloWorldText
+         text: "Hello World"
+         color: "gray"
+     }
+  }<!--
+            --></p></div></pre>
         <h2>Install Qt</h2>
-          <p>...</p>
-          <p>...</p>
-          <p>...</p>
-          <p>...</p>
-          <p>...</p>
-          <p>...</p>
-          <p>...</p>
-          <p>...</p>
-          <p>...</p>
-        <h2>Add Qt bins to your path (optional)</h2>
-          <p>...</p>
-          <p>...</p>
-          <p>...</p>
-          <p>...</p>
+          <p>There are lots of different ways to install Qt, some of them depend of your plateform. So we will only present you the official way.</p>
+          <p>The first thing you need to do is to go to <a href="http://www.qt.io/download/">Qt's website  and download the setup.</a></p>
+          <p>Once finished, launch the setup and follow the instructions. Note down the path where you install Qt.</p>
+        <h2>Add Qt bins to your path (optional, but recommanded)</h2>
+          <p>Now you've succesfully installed Qt, we will make sure that Qt binaries are easily accessible from the command line.</p>
           <p>...</p>
     </article>
     <div id="quick_jump">
