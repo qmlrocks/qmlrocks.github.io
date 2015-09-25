@@ -39,6 +39,13 @@
         <p>// TODO</p>
         <h2>OS X</h2>
         <p>You're lucky, there is an equivalent tool for OS X : macdeployqt.</p>
+        <p>After the compilation part, you should have a .app bundle in your working directory, ours is <span class="inlinecode">helloworld-qml.app</span>. Open your terminal and run the folowing command : </p>
+        <pre><div class="code"><p>$ macdeployqt helloworld.app</p></div></pre>
+        <p>After a couple of seconds, the process will finish (there is no output if you don't add a --verbose argument). This tool has just copied some Qt and system libraries to your bundle, updating the paths. But we have one more thing to do if we are using qml plugins (as QML-Material).</p>
+        <p>To do so, right-click on your .app in Finder, and choose <span class="inlinecode">Explore Contents</span>. Create a subfolder in <span class="codeinline">Resources</span> named <span class="codeinline">qml</span>, and drag and drop your plugins directories to this folder.</p>
+        <p>After that, we need to edit the file <span class="codeinline">qt.conf</span>, and explicit the paths to our Qt plugins.</p>
+        <pre><div class="code"><p>/// qt.conf example</p></div></pre>
+        <p>We're done ! Copy your .app bundle to another place, like on your desktop. And run it, to check if it's still working. If yes, you can rename your Qt installation folder to another name, like <span class="codeinline">Qtfree</span>, to test if your app is now working on a clean and Qt-free environment, and if it runs fine, it means you made it ! You can now zip it and share it. If not, then you missed something. Try to recompile and do these deployment steps again.</p>
         <p>// TODO</p>
         <h2>Linux</h2>
         <p>Sadly, there is no simple tool available on Linux.</p>
