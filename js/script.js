@@ -107,7 +107,7 @@ Q('#quick_jump_header').innerHTML = Q('article h1').innerHTML;
 var qml_codes = Qq('.qml_code'), qml_codes_l = qml_codes.length;
 for(i=0; i<qml_codes_l; i++) {
   var code = qml_codes[i].innerHTML;
-  var count = (code.match(/#/g) || []).length, count_comments = (code.match(/\/\//g) || []).length;
+  var count = (code.match(/#/g) || []).length, count_comments = (code.match(/\/\//g) || []).length, count_imports = (code.match(/@import/g) || []).length;
   var old_e;
   for(j=1;j<=count;j++) {
     old_e = code.substring(code.indexOf('#'), code.indexOf('{', code.indexOf('#')));
@@ -116,6 +116,10 @@ for(i=0; i<qml_codes_l; i++) {
   for(t=1 ;t<=count_comments;t++) {
     old_e = code.substring(code.indexOf('//'), code.indexOf('\n', code.indexOf('//')));
     code = code.replace(old_e, "<span class='qml_comment'>/* "+old_e.slice(1).slice(1)+" */</span>");
+  }
+  for(a=1 ;a<=count_imports;a++) {
+    old_e = code.substring(code.indexOf('@import'), code.indexOf(' ', code.indexOf('@import')));
+    code = code.replace(old_e, "<span class='qml_import'>"+old_e.slice(1) + "</span>");
   }
   qml_codes[i].innerHTML = code;
 }

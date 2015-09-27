@@ -41,30 +41,32 @@
         <p>Now that everything is correctly set up (check the "Get started" section for this), we can start to design our first QML app.</p>
         <p>In a new directory, for eg. <span class="codeinline">helloword-qml</span>, create a file named <span class="codeinline">main.qml</span>, and copy the folowing code in it.</p>
         <pre><div class="code"><p class="qml_code"><!--
--->import QtQuick 2.0
+-->@import QtQuick 2.0
+@import QtQuick.Controls 1.2
 
 #ApplicationWindow {
-   id: app
-   width: 500
-   height: 300
-   title: "My Application"
+    id: app
+    width: 200
+    height: 100
+    title: "My Application"
 
-   #Text {
-       id: myHelloWorldText
-       text: "Hello World"
-       color: "gray"
-   }
+    #Text {
+        id: myHelloWorldText
+        text: "Hello World"
+        color: "gray"
+    }
 }<!--
           --></p></div></pre>
     <p>Now, open your command-line and type :</p>
     <pre><div class="code"><p>$ qmlscene main.qml</p></div></pre>
     <p>You'll get something like that :</p>
-    <p>//IMG</p>
-    <p>Hooray, we created our first QML app ! Let's now read this simple code.</p>
-    <pre><div class="code"><p class="qml_code">import QtQuick 2.0</p></div></pre>
-    <p>This line looks like Python. It means that the compiler must include the module QtQuick in version 1.0.</p>
+    <p><img src="prototyping_images/qmlscene.png" alt="Hello World !"></p>
+    <p>Hooray, we created our first QML app ! Let's now read and try to understand this simple code.</p>
+    <pre><div class="code"><p class="qml_code">@import QtQuick 2.0
+@import QtQuick.Controls 1.2</p></div></pre>
+    <p>Those lines look like Python. It means that the compiler must include the modules QtQuick in version 2.0, and the submodule QtQuick.Controls in version 1.2.</p>
     <pre><div class="code"><p class="qml_code">#ApplicationWindow {
-       id: app</p></div></pre>
+    id: app</p></div></pre>
     <p>We create a QML component named <span class="codeinline">ApplicationWindow</span>, and we attribute to this component an <span class="codeinline">id</span>, as in HTML, so that it can be called from another place. This component is basically the root window, controlled by your desktop manager, of your QML application.</p>
     <pre><div class="code"><p class="qml_code">   width: 500
    height: 300
@@ -78,6 +80,12 @@
    <p>We add now a new component inside the window, and we set its properties.</p>
    <pre><div class="code"><p class="qml_code">}</p></div></pre>
    <p>And we don't forget to close the parent component.</p>
+    <p>It wasn't that complicated, huh ?</p>
+    <h2>Visual types</h2>
+    <h2>Respond to User Input</h2>
+    <h2>Animations</h2>
+    <h2>Integrate JavaScript</h2>
+    <h2>Your own components</h2>
     </article>
     <div id="quick_jump">
       <span id="quick_jump_header" onclick="smoothScrollTo(0,500)"></span>

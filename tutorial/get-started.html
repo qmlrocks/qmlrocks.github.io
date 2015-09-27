@@ -44,19 +44,21 @@
           <p>QML is the language; its runtime is the Javascript V4 engine and Qt Quick is the scenegraph-based UI framework.  (Wikipedia)</p>
           <p>"Hello World!" in QML : </p>
           <pre><div class="code"><p class="qml_code"><!--
-  -->import QtQuick 2.0
- #ApplicationWindow {
-     id: app
-     width: 500
-     height: 300
-     title: "My Application"
+-->@import QtQuick 2.0
+@import QtQuick.Controls 1.2
 
-     #Text {
-         id: myHelloWorldText
-         text: "Hello World"
-         color: "gray"
-     }
-  }<!--
+#ApplicationWindow {
+    id: app
+    width: 200
+    height: 100
+    title: "My Application"
+
+    #Text {
+        id: myHelloWorldText
+        text: "Hello World"
+        color: "gray"
+    }
+}<!--
             --></p></div></pre>
         <h2>Install Qt</h2>
           <p>There are lots of different ways to install Qt, some of them depend of your plateform. So we will only present you the official way.</p>
@@ -64,7 +66,28 @@
           <p>Once finished, launch the setup and follow the instructions. Note down the path where you install Qt.</p>
         <h2>Add Qt bins to your path (optional, but recommanded)</h2>
           <p>Now that you've succesfully installed Qt, we will make sure that Qt binaries are easily accessible from the command line.</p>
-          <p>// TODO</p>
+          <p>Even if this step is optional, we will continue this tutorial thinking that you did it, because it makes things really simpler.</p>
+        <h3>Windows</h3>
+        <p>// TODO</p>
+        <h3>Linux</h3>
+        <p>Open the file <span class="ci">~/.profile</span> : </p>
+        <pre><div class="code"><p>$ nano ~/.profile</p></div></pre>
+        <p>Go to the end of the file and add the folowing text, replacing [yourQtPath] by your Qt installation path, [qtVersion] by your numeric Qt version, and [arch] by your compilater name and architecture (go check in your Qt installation directory).</p>
+        <pre><div class="code"><p>if [ -d "[yourQtPath]/[qtVersion]/[arch]/bin" ] ; then
+  PATH="[yourQtPath]/[qtVersion]/[arch]/bin:$PATH"
+fi
+</p></div></pre>
+        <p>For instance with a Qt 5.5 installation in the <span class="ci">~/Qt</span> directory with gcc in 64 bits : </p>
+        <pre><div class="code"><p>if [ -d "$HOME/Qt/5.5/gcc_64/bin" ] ; then
+  PATH="$HOME/Qt/5.5/gcc_64/bin:$PATH"
+fi
+</p></div></pre>
+    <p>Finally, you need to source this file to use it in this current terminal session (it will be added automatically on the next session) :</p>
+    <pre><div class="code"><p>$ source ~/.profile</p></div></pre>
+    <h3>OS X</h3>
+    <p>// TODO</p>
+    <p>---</p>
+    <p>You can check now if it worked by typing <span class="codeinline">qmlscene</span> : if a file chooser appears in order to select a .qml file to launch, then you made it !</p>
     </article>
     <div id="quick_jump">
       <span id="quick_jump_header" onclick="smoothScrollTo(0,500)"></span>
