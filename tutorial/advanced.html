@@ -49,23 +49,108 @@
         is a QML Plugin that provides access to a Python 3 interpreter from QML.
       </p>
       <h3>Installation</h3>
-        <p>PyOtherSide is available for many platforms.&nbsp;</p>
-      <h3>Packages</h3>
-        <p>There are pre-built packages available for the following platforms</p>
-      <h4>Arch Linux</h4>
-        <p>Arch users can install PyOtherSide from the AUR:
-            <a href="https://aur.archlinux.org/packages/pyotherside/">https://aur.archlinux.org/packages/pyotherside/</a>
-        </p>
-      <h4>Nemo Mobile</h4>
-        <p>
-          Go <a href="https://build.merproject.org/package/show?package=pyotherside&amp;project=nemo:devel:mw">here</a> for more information.
-        </p>
-      <h4>Debian and Ubuntu</span></h4>
-      <p>Debian and Ubuntu users can install it using the following command:</p>
-      <pre><div class="code"><p>$ sudo apt-get install pyotherside</p></div></pre>
+        <p>PyOtherSide is available for many platforms.&nbsp;
+          There are pre-built packages available for the following platforms:</p>
+        <h4>Arch Linux</h4>
+          <p>Arch users can install PyOtherSide from the AUR:
+              <a href="https://aur.archlinux.org/packages/pyotherside/">https://aur.archlinux.org/packages/pyotherside/</a>
+          </p>
+        <h4>Nemo Mobile</h4>
+          <p>
+            Go <a href="https://build.merproject.org/package/show?package=pyotherside&amp;project=nemo:devel:mw">here</a> for more information.
+          </p>
+        <h4>Debian and Ubuntu</span></h4>
+        <p>Debian and Ubuntu users can install it using the following command:</p>
+        <pre><div class="code"><p>$ sudo apt-get install pyotherside</p></div></pre>
 
      <h3>Building</h3>
-     <p>// TODO</p>
+     <p>
+       If there are no builds available for your platform, don't worry, you can still build PyOtherSide yourself.
+       Go <a href="http://pyotherside.readthedocs.org/en/latest/#building-pyotherside">here</a> for
+       complete build instructions.
+     </p>
+     <h3>Hello PyOtherSide!</h3>
+     <p>
+        Okay, now as we have PyOtherSide installed, let's start with a simple example.
+         We start with this simple "Hello World" application that should be familiar to you:
+     </p>
+     <pre><div class="code"><p class="qml_code"><!--
+-->// main.qml
+@import QtQuick 2.0
+@import QtQuick.Controls 1.2
+
+#ApplicationWindow {
+  id: app
+  width: 200
+  height: 100
+  title: "Hello PyOtherSide"
+
+  #Text {
+     id: myHelloWorldText
+     text: "Hello"
+  }
+}
+</p></div></pre>
+    <p>
+        In order to use PyOtherSide we first need to import the module, so add the following statement:
+    </p>
+    <pre><div class="code"><p class="qml_code"><!--
+    -->@import io.thp.pyotherside 1.4</p></div></pre>
+    <p>
+        Now you can run the file using <span class="codeinline">qmlscene</span> to make sure PyOtherSide is installed properly. 
+        If not you will get an import error. <br/><br/>
+        Allright, nothing overwhelming, yet. Let's go ahead and create a new file called <span class="codeinline">hello.py</span>
+    </p>
+	<pre><div class="code"><p class="python_code"><!--
+-->def world():
+    print("Hello from python!")
+</p></div></pre>
+    <p>
+         Now we add a new <span class="codeinline">Python</span> Component which provides access to the python interpreter.
+    </p>
+          <pre><div class="code"><p class="qml_code"><!--
+-->// main.qml
+#ApplicationWindow {
+    // ...
+    Python {
+        id: py
+        Component.onCompleted: {
+            addImportPath(Qt.resolvedUrl("."))
+            importModule("hello", function(){
+                call("hello.world")
+            });
+        }
+    }
+}
+</p></div></pre>
+    <p>
+        We also add a new <span class="codeinline">Component.onCompleted</span> JavaScript handler which will be called when the component is ready.
+    </p>
+    <p>
+        Next we add our current working directory to the python import path ( <span class="codeinline">sys.path</span>).
+    </p>
+    <pre><div class="code"><p class="qml_code"><!--
+-->addImportPath(Qt.resolvedUrl("."))</p></div></pre>
+    <br/>
+    <p>
+        Importing a python module is as simple as calling the <span class="codeinline">Python</span> Component's <span class="codeinline">importModule</span> function.
+        As the second parameter we pass a function which will be called when the import is done.
+         Finally we execute the imported python function using  <span class="codeinline">call</span>.
+    </p>
+    <p>
+         That's it! Run the sample using <span class="codeinline">qmlscene</span> and you should see the console output as expected:
+    </p>
+         <img src="advanced_images/pyotherside_hello.png" alt="Hello PyOtherSide!">
+         
+     <p>
+     // TODO: <br/>
+     * async/sync <br/>
+     * events and handlers  <br/>
+     * Deployment: Android <br/>
+     * Deployment: Ubuntu Touch <br/>
+     </p>
+
+     
      <h2>QML-Material</h2>
     </article>
     <div id="quick_jump"> <span id="quick_jump_header" onclick="smoothScrollTo(0,500)"></span>
