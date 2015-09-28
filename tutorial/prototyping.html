@@ -82,10 +82,119 @@
    <p>And we don't forget to close the parent component.</p>
     <p>It wasn't that complicated, huh ?</p>
     <h2>Visual types</h2>
-    <h2>Respond to User Input</h2>
+    <p>A lot of graphical components are directly available in this QtQuick module. They are interacting with the other with a relation of parent-child.</p>
+    <p>The folowing schema represents a <span class="ci">Text</span> component, living in a <span class="ci">Rectangle</span>, inside the root <span class="ci">ApplicationWindow</span>.</p>
+    <p>
+        <div class="black_border">
+            <p>ApplicationWindow</p>
+            <ul class="left_margin_30">
+                <li>id</li>
+                <li>width</li>
+                <li>height</li>
+                <li>...</li>
+                <div class="black_border">
+                    <p>Rectangle</p>
+                    <ul class="left_margin_30">
+                        <li>id</li>
+                        <li>color</li>
+                        <li>width</li>
+                        <li>height</li>
+                        <li>...</li>
+                        <div class="black_border">
+                            <p>Text</p>
+                            <ul class="left_margin_30">
+                                <li>id</li>
+                                <li>color</li>
+                                <li>font.pointSize</li>
+                                <li>...</li>
+                            </ul>
+                        </div>
+                    </ul>
+                </div>
+            </ul>
+        </div>
+    </p>
+    <p>You can see that every element has some properties that we can set. Here's a small list of the common ones that are pretty generic and can be used in lots of graphical components : </p>
+    <p><ul>
+        <li><span class="ci">id</span> : this component id, it can be accessed from the outside (we'll talk about this later). It must be unique (example myText)</li>
+        <li><span class="ci">color</span> : this component color, a string, can be text color in a Text, or background color of a Rectangle for instance (example "red" or "#FFFFFF").</li>
+        <li><span class="ci">width</span> : this component width, an integer, in pixel (example 300)</li>
+        <li><span class="ci">height</span> : this component height, an integer, in pixel (example 400)</li>
+        <li><span class="ci">opacity</span> : this component opacity, an real from 0 to 1 (example 0.5)</li>
+        <li><span class="ci">visible</span> : this component visibility, a boolean. If true, the component is showed and takes his space, else, it isn't showed and doesn't take any space (example false).</li>
+        <li><span class="ci">x</span> : this component absolute horizontal position in his parent, an integer (example 40).</li>
+        <li><span class="ci">y</span> : this component absolute vertical position in his parent, an integer (example 40).</li>
+        <li><span class="ci">anchors</span> : this component anchors, an object. In QML, instead of using x and y to place your components, you can use the anchors system. This anchors object contains some properties, as fill, left, right, top, bottom, margins, leftMargin, TopMargin, etc. <br>For example, if we wanted to make the Rectangle fill his parent, the ApplicationWindow, in the precedent schema, we could do it by two different ways with anchors : 
+<pre><div class="code"><p class="qml_code">#Rectangle {
+    anchors.fill: parent
+}
+</p></div></pre>
+<p>Or, with an object notation : </p>
+<pre><div class="code"><p class="qml_code">#Rectangle {
+    anchors{
+        fill: parent
+    }
+}
+</p></div></pre>
+<p>or we could set each anchor : </p>
+<pre><div class="code"><p class="qml_code">#Rectangle {
+    anchors{
+        anchors.top: parent.top
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+    }
+}
+</p></div></pre>
+        </li>
+    </ul></p>
+    <p>Here's now a small list of common QtQuick components, with some of their properties: </p>
+    <p>
+        <ul>
+            <li><span class="ci">ApplicationWindow</span> : the root window, it needs to import the module QtQuick.Controls. Its special properties are <span class="ci">title</span> (a string, the window title), <span class="ci">flags</span> (a Qt::WindowFlag, to make the customize the window behaviour and so).</li>
+            <li><span class="ci">Rectangle</span> : a simple rectangle. Some special properties : <span class="ci">border</span> (an object, defines the border style), <span class="ci">radius</span> (an integer, makes round-corners if > 0)</li>
+            <li><span class="ci">Text</span> : a simple text. Some special properties : <span class="ci">font</span> (an object, defines the font style, eg font.pointSize requires an integer and set the font-size), <span class="ci">text</span> (a string, text to display).</li>
+            <li><span class="ci">TextInput</span> : used to accept text input from the user. Some special properties : <span class="ci">text</span>, <span class="ci">passwordCharachter</span> </li>
+        </ul>
+    </p>
+    <p>Again, please note that we won't detail here every single component and all properties, because all of them are completely explained with examples on <a href="http://doc.qt.io/qt-5/qtquick-qmlmodule.html">Qt's doc</a>. </p>
+    <h2>Interactions</h2>
+    <p>In QML, every component and his properties can be accessed from the outside. When you set a component property, it is not an obligation to hard-code his value. You can set it dynamicly, depending on another property value.</p>
+    <p>First example, inside a component : </p>
+    <pre><div class="code"><p class="qml_code">#Rectangle {
+    width: 500
+    height: width
+    radius: width / 2
+}</p></div></pre>
+    <p>In this code, we set the <span class="ci">width</span> property to 500, no problem there. But on the next line, we can see that the <span class="ci">height</span> property is dynamically set to match the <span class="ci">width</span> of THIS component. The same way, we set <span class="ci">radius</span> to half of the <span class="ci">height</span>, the half of <span class="ci">width</span> would achive the same result, as they are linked. We will obtain here a circle.</p>
+    <p>Second example, outside a component : </p>
+    <pre><div class="code"><p class="qml_code">#ApplicationWindow {
+    id: root
+    width: 400
+    heigt: 400
+    #Rectangle {
+        width: parent.width / 2
+        height: root.width / 2
+    }
+}</p></div></pre>
+    <p>Now, we want the <span class="ci">Rectangle</span> to always have the half of the window height, and the half of the window width. They are two ways to achieve this. The first one is the simplest in this case : the object <span class="ci">parent</span>. This object look for the parent of the current component, here the <span class="ci">Rectangle</span>, find our <span class="ci">ApplicationWindow</span>, and return his width.
+        The seconde way can be used even if the target component isn't the parent, we use the unique <span class="ci">id</span> of the target. Here <span class="ci">root.width</span> return the desired value, and we can do operations on it, like division here.</p>
+    <p>It is also possible to set a property conditionally, with a ternary operation. Here's the example : </p>
+    <pre><div class="code"><p class="qml_code">#ApplicationWindow {
+    id: root
+    width: 400
+    heigt: 300
+    #Rectangle {
+        anchors.fill: parent
+        color: parent.width > parent.height ? "green" : "red"
+    }
+}</p></div></pre>
+    <p>In this example, we want the Rectangle color to change wether the window height is bigger than the window width, or the inverse. If the width is bigger than the height, we want it green, else, we want it red. We can use it an ternary, to dynamically set the Rectangle color, regarding this condition. We set it like that : </p>
+    <pre><div class="code"><p>property : [condition] ? [valueIfTrue] : [valueIfFalse]</p></div></pre>
     <h2>Animations</h2>
     <h2>Integrate JavaScript</h2>
-    <h2>Your own components</h2>
+    <h2>Custom properties</h2>
+    <h2>Custom components</h2>
     </article>
     <div id="quick_jump">
       <span id="quick_jump_header" onclick="smoothScrollTo(0,500)"></span>

@@ -207,6 +207,37 @@ article .ci {
   color: rgba(0,0,0,0.5);
 }
 
+article .black_border {
+    border: solid 1px black;
+    display: inline-block;
+    padding: 10px;
+}
+
+article .left_margin_30 {
+    margin-left: 30px;
+    list-style-type: none;
+}
+
+article > ul {
+    list-style-type: circle;
+    margin-left: 30px;
+}
+
+article > ul > li {
+    text-align: justify;
+    font-family: Lora, serif;
+    font-size: 19px;
+    -moz-osx-font-smoothing: grayscale;
+    color: rgba(0,0,0,.8);
+    letter-spacing: .01em;
+    margin-bottom: 5px;
+}
+
+article > p > a {
+    font-family: Lora;
+}
+
+
 .qml_e {
   color: #4caf50;
 }
