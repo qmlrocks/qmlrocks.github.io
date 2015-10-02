@@ -97,16 +97,16 @@
     <pre><div class="code"><p class="qml_code"><!--
     -->@import io.thp.pyotherside 1.4</p></div></pre>
     <p>
-        Now you can run the file using <span class="codeinline">qmlscene</span> to make sure PyOtherSide is installed properly.
+        Now you can run the file using <span class="codeinline">qmlscene</span> to make sure PyOtherSide is installed properly. 
         If not you will get an import error. <br/><br/>
         Allright, nothing overwhelming, yet. Let's go ahead and create a new file called <span class="codeinline">hello.py</span>
     </p>
-	<pre><div class="code"><p class="python_code"><!--
+	<pre><div class="code"><p class="Python_code"><!--
 -->def world():
-    print("Hello from python!")
+    print("Hello from Python!")
 </p></div></pre>
     <p>
-         Now we add a new <span class="codeinline">Python</span> Component which provides access to the python interpreter.
+         Now we add a new <span class="codeinline">Python</span> Component which provides access to the Python interpreter.
     </p>
           <pre><div class="code"><p class="qml_code"><!--
 -->// main.qml
@@ -124,35 +124,350 @@
 }
 </p></div></pre>
     <p>
-        We also add a new <span class="codeinline">Component.onCompleted</span> JavaScript handler which will be called when the component is ready.
+        We also create a new <span class="codeinline">Component.onCompleted</span> JavaScript handler which will be called when the component is ready.
     </p>
     <p>
-        Next we add our current working directory to the python import path ( <span class="codeinline">sys.path</span>).
-    </p>
+        Now we need to add our current working directory to the Python import path ( <span class="codeinline">sys.path</span>).
+    /p>
     <pre><div class="code"><p class="qml_code"><!--
 -->addImportPath(Qt.resolvedUrl("."))</p></div></pre>
     <br/>
     <p>
-        Importing a python module is as simple as calling the <span class="codeinline">Python</span> Component's <span class="codeinline">importModule</span> function.
+        Importing a Python module is as simple as calling the <span class="codeinline">Python</span> Component's <span class="codeinline">importModule</span> function.
         As the second parameter we pass a function which will be called when the import is done.
-         Finally we execute the imported python function using  <span class="codeinline">call</span>.
+         Finally we execute our Python function using  <span class="codeinline">call</span>.
     </p>
     <p>
          That's it! Run the sample using <span class="codeinline">qmlscene</span> and you should see the console output as expected:
     </p>
-    <p><img src="advanced_images/pyotherside_hello.png" alt="Hello PyOtherSide!"></p>
-
-     <p>
+    <p>
+         <img src="advanced_images/pyotherside_hello.png" alt="Hello PyOtherSide!">
+    </p>
+         
+        
+    <h3>Synchronous vs. Asynchronous</h3>
+    
+    <p>
      // TODO: <br/>
      * async/sync <br/>
      * events and handlers  <br/>
      * Deployment: Android <br/>
      * Deployment: Ubuntu Touch <br/>
+    </p>
+    
+    <h3>A Python Calculator</h3>
+    <p>
+        Now we want to face a bit more complete application to show you how a real project Python-QML hybrid project could be structured.
+    </p>
+    <h4>Writing the GUI in QML</h4>
+    <p>
+        We start by creating the user interface in QML. To do so, create a new file called <span class="codeinline">main.qml</span>.
+        First, we import the modules we need:
+        
+    </p>
+        
+    <pre><div class="code"><p class="qml_code"><!--
+-->// main.qml
+@import QtQuick 2.4
+@import QtQuick.Controls 1.3
+@import io.thp.pyotherside 1.4
+</p></div></pre>
+
+    <p>
+        Now let's create our <span class="codeinline">ApplicationWindow</span>. We choose a handy window size and set the title.
+    </p>
+
+<pre><div class="code"><p class="qml_code"><!--
+-->#ApplicationWindow {
+    title: "Calculator"
+    width: 400
+    height: 600
+    visible: true
+</p></div></pre>
+
+    <p>
+        We add a <span class="codeinline">TextField</span> to our window. 
+        The property <span class="codeinline">calc</span> refers to it's text just to simplify setting and getting the current formula string.
+    </p>
+
+
+<pre><div class="code"><p class="qml_code"><!--
+-->    property alias calc: textField.text
+
+    #TextField {
+        id: textField
+</p></div></pre>
+
+    <p>
+        For the text field we define a new property <span class="codeinline">hasError</span>. By setting it to true the font will automatically change to italic.
+    </p>
+
+<pre><div class="code"><p class="qml_code"><!--
+-->        property bool hasError: false
+        font.italic: hasError
+</p></div></pre>
+
+    <p>
+        We anchor it to the left, right and top and set the height as we are going to anchor the calculation buttons to the bottom of it.
+    </p>
+    
+<pre><div class="code"><p class="qml_code"><!--
+-->        anchors {
+            top: parent.top
+            left: parent.left
+            right: parent.right
+        }
+
+        height: 64
+        font.pixelSize: 18
+    }
+
+}
+</p></div></pre>
+
+    <p>
+        Okay, good so far. Now let's create our calculator buttons. To do so, we'll create a custom component called <span class="codeinline">CalculatorButton</span>:
+    </p>
+    
+<pre><div class="code"><p class="qml_code"><!--
+-->// CalculatorButton.qml
+@import QtQuick 2.0
+@import QtQuick.Controls 1.3
+
+#Rectangle {
+    property alias text: label.text
+    signal clicked 
+
+    color: "green"
+
+    border.width: 2
+    border.color: "white"
+
+    #Label {
+        id: label
+        anchors.centerIn: parent
+        color: "white"
+    }
+
+    #MouseArea {
+        id: mouseArea
+        anchors.fill: parent
+        onClicked: parent.clicked()
+    }
+}
+    
+</p></div></pre>
+
+<p>
+    This should be pretty straightforward. We basically have a green rectangle with a signal <span class="codeinline">clicked</span> that is called by the <span class="codeinline">MouseArea</span>.
+</p>
+
+<p>
+    Now we want to add some of these Buttons to our ApplicationWindow. Of course we could do this all manual but this would lead to a mess. So what are we going to do?
+    First of all we need to choose the right layout. We want to create a classic calculator app with a grid of buttons like this:
+</p>
+
+<p>
+     <table style="width:160px">
+      <tr>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td>8</td>
+        <td>9</td>
+      </tr>
+      <tr>
+        <td>0</td>
+        <td>+</td>
+        <td>-</td>
+      </tr>
+      <tr>
+        <td>*</td>
+        <td>/</td>
+        <td>=</td>
+      </tr>
+    </table> 
+
+</p>
+    
+<p>
+    Luckiliy, QML provides two standard Components which are very handy in our use case. The first of them is  <span class="codeinline">Grid</span>. 
+    As the name suggests, it simply orders its child elements in a Grid and we can specify the amount of <span class="codeinline">columns</span> and <span class="codeinline">rows</span>
+     easily by setting the respecting properties.
+    The second is the <span class="codeinline">Repeater</span> which simply repeats the Component specified as <span class="codeinline">delegate</span>
+     (in our case the <span class="codeinline">CalculatorButton</span>). The property <span class="codeinline">model</span> allows to set custom data for each Button 
+     (as we need to set the numbers/calculation operators).
+</p>
+    
+    <pre><div class="code"><p class="qml_code"><!--
+-->#ApplicationWindow {
+    // ...
+    
+    #Grid {
+        anchors {
+            top: textField.bottom   // Anchor to the textField
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+        }
+
+        columns: 3
+        rows: 5
+
+        #Repeater {
+            model: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, "+", "-", "*", "/"]
+            delegate: #CalculatorButton {
+                // modelData holds the current text
+                text: modelData.toString ()
+                // We add the operator or number to the calc string
+                onClicked: calc += modelData.toString()
+                
+                height: parent.height / parent.rows
+                width: parent.width / parent.columns
+            }
+        }
+
+</p></div></pre>
+
+<p>
+    For the evaluate ("=") button we create an extra object, it will be not handeled by the <span class="codeinline">Repeater</span>.
+    We connect <span class="codeinline">onClicked</span> to a function called <span class="codeinline">calculate</span> which we yet need to create.
+</p>
+
+ <pre><div class="code"><p class="qml_code">
+        #CalculatorButton {
+            text: "="
+            onClicked: calculate()
+            color: "black"
+            
+            height: parent.height / parent.rows
+            width: parent.width / parent.columns
+        }
+    }
+}</p></div></pre>
+
+    <p>
+        Great! The user interace part is finished so far. Run the project using <span class="codeinline">qmlscene</span> to see if everything works correctly.
+    </p>
+    
+    <p>
+         <img src="advanced_images/pyotherside_calculator.png" alt="PyOtherSide Calculator">
+    </p>
+
+    <h4>Doing the calculations</h4>
+    <p>
+        Now let's add the logic part. As we want to handle that via Python, create a new file called <span class="codeinline">main.py</span>:
+    </p>
+    
+ <pre><div class="code"><p><!--
+-->from math import *
+
+def calculate(expression):
+    try:
+        return (True, eval(expression, globals()))
+    except:
+        return (False, 0)</p></div></pre>
+     
+ <p>
+     We basically just want to evaluate a string. Python lets us doing this easily using the <span class="codeinline">eval</span> function.
+    By importing everything from the <span class="codeinline">math</span> we have the most important arithmetic functions like <span class="codeinline">sin</span>
+    or <span class="codeinline">pi</span> in the global namespace. To make use of that we just need to hand them over to <span class="codeinline">eval</span> using
+    <span class="codeinline">global()</span>.
+    <br/>
+    Our function <span class="codeinline">calculate</span> returns a Python <span class="codeinline">tuple</span> (which is basically an array) with to values.
+    The first one describes whether the expression is valid, the second holds the evaluation result. If <span class="codeinline">eval</span> fails it 
+    throws an exception which is handeled by <span class="codeinline">except</span>. In this case we return <span class="codeinline">False</span> and 0 as values
+    to point out that there was a problem.
+ </p>
+ 
+ <p>
+     Cool! Now we just need to integrate this into QML.
+     To the bottom of our <span class="codeinline">main.qml</span> but inside of the <span class="codeinline">ApplicationWindow</span> (!) we add the following code:
+      </p>
+
+    <pre><div class="code"><p class="qml_code"><!--
+-->Python {
+    id: py
+    Component.onCompleted: {
+        addImportPath(Qt.resolvedUrl("."))
+        importModule_sync("main")
+    }
+}</p></div></pre>
+
+<p>
+    Nothing new here, check the previous PyOtherSide tutorials if this doesn't look familiar to you.
+    <br/>
+    The only thing that's missing now is the <span class="codeinline">calculate</span> function we already referenced in the code. We add it below the properties of our
+    <span class="codeinline">ApplicationWindow</span>:
+</p>
+
+    <pre><div class="code" class="qml_code"><p><!--
+-->function calculate () {
+    py.call("main.calculate", [ calc ], function ( result ) {
+        var isValid = result[0];
+        if (isValid) {
+            calc = result[1];
+        }
+    })
+}</p></div></pre>
+
+    <p>
+        Here we call the imported Python function <span class="codeinline">main.calculate</span> with the parameter <span class="codeinline">calc</span>
+        which is our formula string. As second paramter we hand over a callback function which expects a list with two entries. If the first index is true,
+        the evaluation has passed with no errors and we set <span class="codeinline">calc</span> to the result.
+    </p>
+    
+    <p>
+        To calculate on pressing return just add this line to our <span class="codeinline">textField</span>:
+    </p>
+    <pre><div class="code" class="qml_code"><p><!--
+    -->onAccepted: calculate()</p></div></pre>
+    
+    <p>
+        That's it! Congratulations, you wrote your own calculator in QML and Python!
+    </p>
+    
+    <p>
+      <img src="advanced_images/pyotherside_calculator_desktop.png" alt="PyOtherSide Calculator">
+    </p>
+
+     
+     <h2>QML-Material</h2>
+     <p>
+         Are you bored by the visual expierence of our examples so far? Good news then, this section is for you! <br/>
+         You have probably heard of Googles Material Design, the shiny design of current Android versions and apps. If not, here's a small video: 
+     </p>
+     <p>
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/Q8TXgCzxEnw?rel=0" frameborder="0" allowfullscreen></iframe>
+     </p>
+     <p>
+         The team around the upcoming linux os <a href="http://www.papyros.io">Papyros</a> created an amazing QML framework called "QML-Material",
+         which enables us - as the name suggests - to write cross-platform Material designed QML applications. <br/>
+     </p>
+     
+     <h3>Installation</h3>
+     <p>
+         // TODO
      </p>
 
+     <h3>Hello World</h3>
+      <p>
+         // TODO
+     </p>
 
-     <h2>QML-Material</h2>
-    </article>
+     <h3>Documentation</h3>
+     <p>
+         // TODO
+     </p>
+         </article>
     <div id="quick_jump"> <span id="quick_jump_header" onclick="smoothScrollTo(0,500)"></span>
       <ul id="quick_jump_items">
       </ul>
