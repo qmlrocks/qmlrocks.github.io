@@ -192,6 +192,51 @@
     <p>In this example, we want the Rectangle color to change wether the window height is bigger than the window width, or the inverse. If the width is bigger than the height, we want it green, else, we want it red. We can use it an ternary, to dynamically set the Rectangle color, regarding this condition. We set it like that : </p>
     <pre><div class="code"><p>property : [condition] ? [valueIfTrue] : [valueIfFalse]</p></div></pre>
     <h2>Animations</h2>
+    <p>In order to provide the best user experince, and to make your application nice, you often need to animate some transitions, for example a menu opening.</p>
+    <p>There are different ways to achieve this with QML, but we will only study one, which is the simplest, but most of the time sufficient. To do so, we will introduce a new <span class="ci">Behavior</span> component. But let's start with an example.</p>
+    <p>For a reason, you need to programaticly change the color of a Rectangle component, from the initial red to green. Let's write this simple code :</p>
+    <pre><div class="code"><p class="qml_code">@import QtQuick 2.5
+
+#Window {
+  width: 300
+  heigth: width
+
+  #Rectangle {
+      anchors.fill: parent
+      color: "red"
+      #MouseArea {
+          anchors.fill: parent
+          onClicked: parent.color = "green"
+      }
+  }
+
+}</p></div></pre>
+    <p>When you click on the red rectangle, the color changes immediatly to the target, without animation. This is not nice, that's why we will add an animation, to make it smoother.</p>
+    <p>In the folowing code, we add the <span class="ci">Behavior</span> component.</p>
+    <pre><div class="code"><p class="qml_code">@import QtQuick 2.5
+
+#Window {
+  width: 300
+  heigth: width
+
+  #Rectangle {
+      anchors.fill: parent
+      color: "red"
+
+      #MouseArea {
+          anchors.fill: parent
+          onClicked: parent.color = "green"
+      }
+
+      #Behavior on color {
+          #ColorAnimation {
+            duration: 500
+          }
+      }
+  }
+
+}</p></div></pre>
+    <p>The code is pretty simple, we add a <span class="ci">Behavior</span> component, that targets the <span class="ci">color</span> property. We add the ColorAnimation item, and we set the duration to 500.</p>
     <h2>Integrate JavaScript</h2>
     <h2>Custom properties</h2>
     <h2>Custom components</h2>
