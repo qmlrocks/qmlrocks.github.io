@@ -302,6 +302,105 @@
         </p>
         
     <h2>Custom properties</h2>
+    <p>
+        We have used a lot of different properties already. These where all pre-defined properties, we didn't have to do anything but setting a value or binding
+        to it using the <span class="ci">propertyName: valueOrExpression</span> scheme. At some point you will want to define your own properties though. 
+        To do so, QML uses the following syntax:
+    </p>
+        <pre><div class="code"><p class="qml_code">[modifiers] property [type] [name]: [default]</p></div></pre>
+        <p>
+            
+    The QML language supports the following property types (among others):
+    </p>
+    <p>
+        <table style="width: 100%">
+            <tr>
+                <td>
+                    <span class="ci">int</span>
+                </td>
+                <td>
+                    Whole number
+                </td>
+                <td>
+                    <span class="ci">5, 2, -10</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="ci">bool</span>
+                </td>
+                <td>
+                    Boolean  value
+                </td>
+                <td>
+                    <span class="ci">true, false</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="ci">dobule</span>
+                </td>
+                <td>
+                    Number with a decimal point
+                </td>
+                <td>
+                    <span class="ci">5.1, -10.41</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="ci">string</span>
+                </td>
+                <td>
+                    Text string
+                </td>
+                <td>
+                    <span class="ci">"Lorem ipsum dolor sit"</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="ci">var</span>
+                </td>
+                <td>
+                    Generic type, similiar to regular JavaScript variable
+                </td>
+                <td>
+                    <span class="ci">({a: 5, b: 1}), [1,2,3]</span>
+                </td>
+            </tr>
+       </table> 
+    </p>
+    <p>
+       Please see the <a href="http://doc.qt.io/qt-5/qtqml-typesystem-basictypes.html">Qt Documentation</a>  for a complete list.
+    </p>
+    
+    <p>
+        Let's have a look at some examples:
+    </p>
+        <pre><div class="code"><p class="qml_code">property string description: "my cute app"</p></div></pre>
+    <p>
+        It's pretty clear, isn't it? We simply assing the string <span class="ci">"My cute app"</span> to a property called <span class="ci">description</span>.
+        Under that name we can later use it in our program, e.g.
+    </p>
+        <pre><div class="code"><p class="qml_code">#Text {
+    property string description: "my cute app"
+    text: "This is " + description
+}</div></pre>
+    </p>
+    <p>
+        Note that if you wanted to use the property in another component you will might have to set the <span class="ci">id</span> of the object where the
+        property is defined (in our case the <span class="ci">Text</span> element):
+    </p>
+    <pre><div class="code"><p class="qml_code">text: myTextElement.description</p></div></pre>
+    <p>
+        Last, but not least:
+    </p>    
+        <pre><div class="code"><p class="qml_code">readonly property bool isAwesome: true</p></div></pre>
+    <p>
+        The special thing about this one is the use of the <span class="ci">readonly</span> modifier. This property is constant and cannot be changed on runtime.
+    </p>
+            
     <h2>Custom components</h2>
     </article>
     <div id="quick_jump">
