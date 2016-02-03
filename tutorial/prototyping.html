@@ -6,10 +6,10 @@
     <link rel="stylesheet" href="../style/style.css">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,400italic,300italic,600,700' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto+Mono' rel='stylesheet' type='text/css'>
-		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Lora:400,400italic,700' rel='stylesheet' type='text/css'>
     <meta name="theme-color" content="#4caf50">
-		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0">
+        <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0">
 </head>
 <body>
     <header id="top_menu">
@@ -238,6 +238,69 @@
 }</p></div></pre>
     <p>The code is pretty simple, we add a <span class="ci">Behavior</span> component, that targets the <span class="ci">color</span> property. We add the ColorAnimation item, and we set the duration to 500.</p>
     <h2>Integrate JavaScript</h2>
+    <p>
+        JavaScript is very deeply integrated into QML. It's not only possible to add additional implicit functionality to the otherwise pure declarative QML code but
+        there are many cool features and helpers available making developing a lot easier.
+        
+    </p>
+    <h3>Signals and Slots</h3>
+    <p>
+        Qt builds upon the so called signal and slots principle. You might compare it to JavaScript callbacks but it's much more feature-rich. The concept though, is pretty simple:
+        A signal represents an action which gets triggered at some point in your application. We already covered the <span class="ci">MouseArea</span> component above where we
+        reacted to click events:</p>
+        
+        <pre><div class="code"><p class="qml_code">#MouseArea {
+    anchors.fill: parent
+    onClicked: parent.color = "green"
+}</p></div></pre>
+    <p>
+        Our <span class="ci">onClicked</span> here actually is a signal handler which reacts to the <span class="ci">clicked</span> signal. So the generic syntax for QML
+        signal handlers is <span class="ci">on</span> + <span class="ci">Signal</span>, where the first letter of the signal name must be uppercase. It's pretty straightforward, isn't it?
+        The same way you can do this declarative using QML signal handlers you can perform this implicitly using pure JavaScript:
+        <pre><div class="code"><p class="qml_code">#MouseArea {
+    id: mouseArea
+    anchors.fill: parent
+    #Component.onCompleted: {
+        mouseArea.clicked.connect(function(){
+            console.log("QML is amazing :)");
+        });              
+    }
+}</p></div></pre>
+    <p>
+        In this example we actually used two signal handlers. <span class="ci">Component.onCompleted</span> is available for every QML type and gets called after the object has been instantiated.
+        Inside of this declarative, QML-style handler, we use the connect method which every signal provides to register a JavaScript function as callback.<br/>
+        If you want to trigger a signal from JavaScript just call the <span class="ci">signalName()</span>, e.g. <span class="ci">mouseArea.clicked()</span>.
+    </p>
+    </p>
+    <h3>Bindings</h3>
+    <p>We talked about properties before. Let's use the following example code as starting point:</p>
+    <pre><div class="code"><p class="qml_code">#Rectangle {
+    width: 500
+    height: width 
+    #Text {
+        text: parent.width        
+    }
+}</p></div></pre>
+    <p>
+        Now, if you try this example out, you will notice that the <span class="ci">text</span> automatically updates whenever you change the application's width!
+        This is possible because everytime you assign a property in QML it will try to create a binding out of it which will automatically update it's value for you.
+        <br/>
+        While this is one of the best things about QML there are some things you should have in mind. First of all, if you make use of implicit code (JavaScript) and assign
+        values to properties using the assignment operator <span class="ci">=</span>, the property is not connected to a binding. The value will be static, evaluated
+        at the time the script was executed. Let's add the following <span class="ci">Component.onCompleted</span> handler to <span class="ci">Text</span> component of the example above: 
+    </p>
+    <pre><div class="code"><p class="qml_code">#Component.onCompleted: {
+    text = parent.width;
+}</p></div></pre>
+        <p>
+            Now the text won't change automatically. The text is fixed to he our default width, <span class="ci">500</span>. This behaivour might be obvious but sometimes it's 
+            handy to be able to create bindings implicitly. Luckily, QML makes this very easy through the <span class="ci">Qt.binding()</span> function:
+        </p>
+        <pre><div class="code"><p class="qml_code">text = Qt.binding(function(){ return parent.width; });</p></div></pre>
+        <p>
+            This helper takes a function as it's only argument which then is used as binding expression. Cool, isn't it?
+        </p>
+        
     <h2>Custom properties</h2>
     <h2>Custom components</h2>
     </article>
